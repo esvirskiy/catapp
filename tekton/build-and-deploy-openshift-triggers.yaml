@@ -19,6 +19,13 @@ spec:
       kind: PipelineRun
       metadata:
         generateName: catapp-build-and-deploy-
+        annotations:
+          tekton.dev/gitURL: "$(tt.params.gitRepository)"
+        labels:
+          prow.k8s.io/build-id: $(tt.params.buildUUID)
+          tekton.dev/check-name: check-pr-has-kind-label
+          tekton.dev/kind: ci
+          tekton.dev/pr-number: $(tt.params.pullRequestNumber)
       spec:
         serviceAccountName: $(params.SERVICE_ACCOUNT)
         pipelineRef:
